@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'sinatra'
 
-
 use Rack::Session::Cookie, :key => 'rack.session',
                            :path => '/',
                            :secret => 'ghdkdkhgdk345'
@@ -11,9 +10,8 @@ DEALER_STAYS = 17
 INITIAL_POT = '500'
 
 helpers do
-    def calculate_total(cards)
+  def calculate_total(cards)
     arr = cards.map { |element| element[1] }
-
     total = 0
     arr.each do |a|
       if a == "A"
@@ -32,7 +30,6 @@ helpers do
   end
 
   def card_image(card)
-    #clubs_10.jpg
     suit = case card[0]
       when 'H' then 'hearts'
       when 'C' then 'clubs'
@@ -49,31 +46,27 @@ helpers do
         when 'K' then 'king'
       end
     end
-     "<img src=' /images/cards/#{suit}_#{value}.jpg'  class=' '>"
+    "<img src=' /images/cards/#{suit}_#{value}.jpg'  class=' '>"
   end
 
   def winner!(message)
     @play_again = true
-    @money = session[:player_total_cash].to_i + session[:player_bet].to_i
+    session[:player_total_cash] = session[:player_total_cash].to_i + session[:player_bet].to_i
     @winner = "#{session[:player_name]} wins! #{message} #{session[:player_name]} now has $#{@money}"
-    session[:player_total_cash] = @money
     @show_hit_or_stay_buttons = false
   end
 
   def loser!(message)
     @play_again = true
-     @money = session[:player_total_cash].to_i - session[:player_bet].to_i
+    session[:player_total_cash] = session[:player_total_cash].to_i - session[:player_bet].to_i
     @loser = "#{session[:player_name]} loses! #{message} #{session[:player_name]} now has $#{@money}"
-    session[:player_total_cash] = @money
     @show_hit_or_stay_buttons = false
-
   end
 
   def tie!(message)
     @play_again = true
-    @money = session[:player_total_cash]
+    session[:player_total_cash] = session[:player_total_cash]
     @winner = "#{session[:player_name]} and the dealer tie #{message} #{session[:player_name]} now has $#{session[:player_total_cash]}"
-    session[:player_total_cash] = @money
     @show_hit_or_stay_buttons = false
   end
 
@@ -107,8 +100,6 @@ end
 
 post '/get_bet' do
 
-  # player_bet = session[:player_bet]
-  # player_total_cash = session[:player_total_cash]
   if params[:player_bet_amount].nil? || params[:player_bet_amount].to_i == 0
     @error = "You must make a bet."
     erb :bet
@@ -185,7 +176,6 @@ end
 get '/game/dealer/compare' do
   player_total = calculate_total(session[:player_hand])
   dealer_total = calculate_total(session[:dealer_hand])
-
 
   if player_total < dealer_total
     loser!("#{session[:player_name]} stayed at #{player_total} and the dealer stayed at #{dealer_total}")
