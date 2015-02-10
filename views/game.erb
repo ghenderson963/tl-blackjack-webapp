@@ -1,0 +1,81 @@
+<div id="game">
+     <%if @loser %>
+      <div class="alert alert-error"><%=@loser%></div>
+    <% end %>
+    <%if @winner %>
+      <div class="alert alert-success"><%= @winner %></div>
+    <%end%>
+
+<p><h4>Welcome to Blackjack <%=session[:player_name]%>!</h4></p>
+
+<% if @play_again %>
+  <p>
+    <strong>Play again?</strong>
+    <a href="/bet" class="btn btn-primary">Yes</a>
+    <a href="/game_over" class="btn"> No</a>
+  </p>
+<% end %>
+
+ <h5><%= "#{session[:player_name]}, has a total of #{calculate_total(session[:player_hand])}" %></h5>
+  <div class="well" id="player_cards">
+    <h5> Player's Cards: </h5>
+    <% session[:player_hand].each do |card| %>
+      <%= card_image(card) %>
+    <%end%>
+    <h5>
+      <%= session[:player_name] %> has $<%= session[:player_total_cash]%> and bet $<%= session[:player_bet] %> this round.
+    </h5>
+  </div>
+
+
+
+  <div class="well">
+    <h5>Dealer's Cards: </h5>
+    <% session[:dealer_hand].each_with_index do |card, i| %>
+      <%if session[:turn] != "dealer" && i == 0 %>
+        <img src="/images/cards/cover.jpg">
+      <% else %>
+        <%= card_image(card) %>
+      <% end %>
+    <% end %>
+
+
+
+    <% if @show_dealer_hit_button %>
+    <h5>Dealer has <%= calculate_total(session[:dealer_hand]) %> He hits! </h5>
+      <form id="dealer_form" action='/game/dealer/hit' method='post'>
+        <input type="submit"  class="btn btn-large btn-block btn-primary" value="Show Dealer's Card" />
+      </form>
+    <% end %>
+  </div>
+
+
+<h4> <%= "#{session[:player_name]} has #{calculate_total(session[:player_hand])}." %> </h4>
+
+  <% if @show_hit_or_stay_buttons %>
+  <h5> What would you like to do? <%= "#{session[:player_name]}?" %></h5>
+    <form id="hit_form" action="/game/player/hit" method='post'>
+      <input type="submit" class="btn btn-success" value="Hit" />
+    </form>
+    <form id="stay_form" action="/game/player/stay" method='post'>
+      <input type="submit" class="btn btn-warning" value="Stay" />
+    </form>
+  <% end %>
+
+  <% if @player_again %>
+  <p>
+    <strong>Play Again?</p>
+      <a href="/bet" class="btn btn-primary">Yes</a>
+      <a href="/game_over" class="btn">No</a>
+    </p>
+    <% end %>
+  </div>
+
+
+
+
+
+
+
+
+

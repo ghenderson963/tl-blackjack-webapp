@@ -1,0 +1,9 @@
+
+
+<h5> <%= "You have $#{session[:player_total_cash]}.  How much would you like to bet #{session[:player_name]}?" %> </h5>
+
+<form action='/get_bet' method='post'>
+    <input type='text' name="player_bet_amount"/>
+    <br/>
+    <input type="submit" value='Make Bet!' class="btn"/>
+  </form>
