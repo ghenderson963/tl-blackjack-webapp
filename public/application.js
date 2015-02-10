@@ -6,7 +6,6 @@ $(document).ready(function() {
 
 function player_hits() {
     $(document).on("click", "form#hit_form input", function() {
-      alert("player hits!");
       $.ajax({
         type: "POST",
         url: "/game/player/hit"
@@ -20,7 +19,6 @@ function player_hits() {
 
 function player_stays() {
     $(document).on("click", "form#stay_form input", function() {
-      alert("player stays!");
       $.ajax({
         type: "POST",
         url: "/game/player/stay"
@@ -34,7 +32,6 @@ function player_stays() {
 
 function dealer_hits() {
     $(document).on("click", "form#dealer_form input", function() {
-      alert("Dealer hits!");
       $.ajax({
         type: "POST",
         url: "/game/dealer/hit"
