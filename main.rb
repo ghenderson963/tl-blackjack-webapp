@@ -52,14 +52,14 @@ helpers do
   def winner!(message)
     @play_again = true
     session[:player_total_cash] = session[:player_total_cash].to_i + session[:player_bet].to_i
-    @winner = "#{session[:player_name]} wins! #{message} #{session[:player_name]} now has $#{@money}"
+    @winner = "#{session[:player_name]} wins! #{message} #{session[:player_name]} now has $#{session[:player_total_cash]}"
     @show_hit_or_stay_buttons = false
   end
 
   def loser!(message)
     @play_again = true
     session[:player_total_cash] = session[:player_total_cash].to_i - session[:player_bet].to_i
-    @loser = "#{session[:player_name]} loses! #{message} #{session[:player_name]} now has $#{@money}"
+    @loser = "#{session[:player_name]} loses! #{message} #{session[:player_name]} now has $#{session[:player_total_cash]}"
     @show_hit_or_stay_buttons = false
   end
 
